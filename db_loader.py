@@ -1,5 +1,7 @@
-import string
-import random
+from flask_security.utils import encrypt_password
+
+from security import user_datastore
+from apps.admin.models import Role
 
 
 def build_sample_db(app, db):
@@ -17,7 +19,7 @@ def build_sample_db(app, db):
         db.session.add(super_user_role)
         db.session.commit()
 
-        test_user = user_datastore.create_user(
+        user_datastore.create_user(
             first_name='Admin',
             email='admin',
             password=encrypt_password('admin'),

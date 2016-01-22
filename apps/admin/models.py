@@ -1,11 +1,7 @@
-from db import app
 from db import db
 
-import os
-from flask import Flask, url_for, redirect, render_template, request, abort
-from flask_security import Security, SQLAlchemyUserDatastore, \
-    UserMixin, RoleMixin, login_required, current_user
-from flask_security.utils import encrypt_password
+from flask_security import UserMixin
+from flask_security import RoleMixin
 
 
 # Define models
@@ -38,7 +34,3 @@ class User(db.Model, UserMixin):
 
     def __str__(self):
         return self.email
-
-## Setup Flask-Security
-#user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-#security = Security(app, user_datastore)

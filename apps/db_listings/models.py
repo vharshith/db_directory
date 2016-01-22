@@ -1,5 +1,6 @@
 from db import db
 
+
 class DB_Listings(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     client_name = db.Column(db.String(80), unique=True)

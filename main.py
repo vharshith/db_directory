@@ -1,44 +1,12 @@
 import os
 
-from flask import Flask, url_for, redirect, render_template, request, abort
-import flask_admin
-from flask_admin import helpers as admin_helpers
-from flask_security import Security, SQLAlchemyUserDatastore
+from flask import render_template
 
 from db import app
 from db import db
 
 from db_loader import build_sample_db
-from apps.admin.admin import MyModelView
-from apps.admin.models import User
-from apps.admin.models import Role
 
-
-# Create admin
-admin = flask_admin.Admin(
-    app,
-    'Example: Auth',
-    base_template='my_master.html',
-    template_mode='bootstrap3',
-)
-
-# Add model views
-admin.add_view(MyModelView(Role, db.session))
-admin.add_view(MyModelView(User, db.session))
-
-# Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
-
-# define a context processor for merging flask-admin's template context into the
-# flask-security views.
-@security.context_processor
-def security_context_processor():
-    return dict(
-        admin_base_template=admin.base_template,
-        admin_view=admin.index_view,
-        h=admin_helpers,
-    )
 
 # Flask views
 @app.route('/')
@@ -54,4 +22,4 @@ if __name__ == '__main__':
         build_sample_db(app, db)
 
     # Start app
-    app.run(debug=True)
+    app.run(debug=app.config['DEBUG'])
